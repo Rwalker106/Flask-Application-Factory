@@ -1,0 +1,104 @@
+{% extends "base.html" %} {% block title %}All Cafes{% endblock %} {% block
+header %}
+<section class="hero">
+  <h1 class="home-h1">See All Listed Cafes</h1>
+  <p class="home-p">Browse all listed cafes in the table below.</p>
+</section>
+{% endblock %} {% block content %} {% if cafes %}
+<section class="layout">
+  <div class="table-header-actions">
+    <div class="table-info">
+      <i class="fa-solid fa-circle-info"></i>
+      <span class="tooltip-text">
+        Click on the name of an entry to edit.<br>
+        Click on Location to view a map of the business.
+      </span>
+    </div>
+    <a href="{{ url_for('main.add') }}" class="btn btn-primary"><i class="fa-solid fa-plus btn-icon"></i> Add a Cafe</a>
+  </div>
+  <div class="panel table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th><i class="fa-solid fa-store th-icon"></i>Name</th>
+          <th><i class="fa-regular fa-image th-icon"></i>Image</th>
+          <th><i class="fa-solid fa-location-dot th-icon"></i>Location</th>
+          <th><i class="fa-solid fa-plug th-icon"></i>Sockets</th>
+          <th><i class="fa-solid fa-restroom th-icon"></i>Toilet</th>
+          <th><i class="fa-solid fa-wifi th-icon"></i>WiFi</th>
+          <th><i class="fa-solid fa-phone th-icon"></i>Calls</th>
+          <th><i class="fa-solid fa-chair th-icon"></i>Seats</th>
+          <th><i class="fa-solid fa-coins th-icon"></i>Coffee</th>
+          <th><i class="fa-solid fa-trash th-icon"></i>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cafe in cafes %}
+        <tr>
+          <td><a href="{{ url_for('main.edit', id=cafe.id) }}" target="_edit" class="name-link"> {{ cafe.name }}
+          </a></td>
+          <td>
+            <img
+              src="{{ cafe.img_url }}"
+              alt="{{ cafe.name }}"
+              class="cafe-img"
+              onerror="this.onerror=null; this.src='https://placehold.co/100x60?text=No+Image';"
+            />
+          </td>
+          <td>
+            <a href="{{ cafe.map_url}}" target="_blank" class="location-link"
+              >{{ cafe.location }}</a
+            >
+          </td>
+          <td>
+            <span
+              class="bool-pill{% if not cafe.has_sockets %} is-off{% endif %}"
+            >
+              {{ 'Yes' if cafe.has_sockets else 'No' }}
+            </span>
+          </td>
+          <td>
+            <span
+              class="bool-pill{% if not cafe.has_toilet %} is-off{% endif %}"
+            >
+              {{ 'Yes' if cafe.has_toilet else 'No' }}
+            </span>
+          </td>
+          <td>
+            <span class="bool-pill{% if not cafe.has_wifi %} is-off{% endif %}">
+              {{ 'Yes' if cafe.has_wifi else 'No' }}
+            </span>
+          </td>
+          <td>
+            <span
+              class="bool-pill{% if not cafe.can_take_calls %} is-off{% endif %}"
+            >
+              {{ 'Yes' if cafe.can_take_calls else 'No' }}
+            </span>
+          </td>
+          <td>{{ cafe.seats or 'Unknown' }}</td>
+          <td>{{ cafe.coffee_price or 'Unknown' }}</td>
+          <td>
+            <form action="{{ url_for('main.delete', id=cafe.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this cafe?');" class="delete-form">
+                <button type="submit" class="btn-delete">
+                    <i class="fa-solid fa-trash-can icon-delete"></i>
+                </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% else %}
+<section class="panel empty-state">
+  <h2>No cafes yet</h2>
+  <p>
+    Add records to your database and this page will render the table
+    automatically.
+  </p>
+  <a href="{{ url_for('main.add') }}" class="btn-primary btn-empty-state"><i class="fa-solid fa-plus btn-icon"></i> Add New Cafe</a>
+</section>
+{% endif %} {% endblock %}

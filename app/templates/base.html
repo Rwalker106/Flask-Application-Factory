@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head id="head">
+    {% include "partials/_head.html" %}
+  </head>
+
+  <body id="body">
+    <nav id="nav-bar" class="navbar">{% include "partials/_navbar.html" %}</nav>
+
+    <main id="main" class="page">
+    
+    <header id="page-header" class="page-header">
+      {% block header %}
+      {% include "partials/_header.html" %}
+      {% endblock %}
+    </header>
+    
+      {% block content %}{% endblock %}
+
+      <footer id="page-footer" class="page-footer">
+        {% include "partials/_footer.html" %}
+      </footer>
+    </main>
+  </body>
+</html>

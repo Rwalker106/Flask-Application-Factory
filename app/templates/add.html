@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block title %}Add a New Cafe{% endblock %}
+
+{% block header %}
+<section class="hero">
+  <h1>Add a New Cafe</h1>
+  <p>Share a new workspace you've discovered.</p>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="layout">
+  <!-- We wrap the form in the matching panel aesthetic from your other pages -->
+  <article class="panel empty-state form-panel">
+    <!-- Bootstrap-Flask perfectly formats WTForms for us out-of-the-box! -->
+    {{ render_form(form, novalidate=True) }}
+  </article>
+</section>
+{% endblock %}
